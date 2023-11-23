@@ -28,32 +28,25 @@ import tools from "./product.json";
 
 
 const container = document.querySelector(".js-list");
-const PRODUCT_LS_KEY = 'checkout';
-
+const PRODUCT_LS_KEY = "checkout";
 container.insertAdjacentHTML("beforeend", createMarkup(tools));
-container.addEventListener("click", handleAdd);
-
-
-function handleAdd(event) {
-    if(!event.target.classList.contains("js-btn")) {
+container.addEventListener("click", handleClick);
+function handleClick(event) {
+    if (!event.target.classList.contains("js-btn")) {
         return;
     }
-
-    const product = event.target.closest(".js-product");
-    const productId = Number(product.dataset.id);
+    const product = Number(event.target.closest(".js-product"));
+    const productId = product.dataset.id;
     const currentProduct = tools.find(({ id }) => id === productId);
     const products = JSON.parse(localStorage.getItem(PRODUCT_LS_KEY)) ?? [];
     const index = products.findIndex(({ id }) => id === productId);
-
-    if(index !== -1) {
-        products[index].qty += 1;
+    if (index !== -1) {
+        
     } else {
         currentProduct.qty = 1;
-        products.push(currentProduct)
+        products.push(currentProduct);
     }
-
-    localStorage.setItem(PRODUCT_LS_KEY, JSON.stringify(products))
+    
 }
-
 
 
